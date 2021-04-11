@@ -26,6 +26,7 @@ namespace AdessoRideShareAPI.Controllers
         [HttpPost]
         public async Task<TripInformation> AddTrip(TripModel model)
         {
+            //Gelen istek içerisinde Nerden , Nereye , Tarih , Açıklama ve Koltuk sayısının yanında oluşturan kişinin ID sini alıp DB ye kayıt edilen fonksiyon.
             var tripEntity = new TripInformation
             {
                 Explanation = model.Explanation,
@@ -52,7 +53,8 @@ namespace AdessoRideShareAPI.Controllers
         [HttpPost]
         public IActionResult PublishUnPublishTrip(int Id,int CreatedBy)
         {
-
+            //Seçilen yolculuğun ID si ve Kimin oluşturduğu bilgisi ile (kimin oluşturduğu bilgisi client tarafından otomatik setlenip gönderilmeli)
+            //yayında ise yayından kaldırma, yayında değil ise yayına alma fonksiyonu
             var tripEntity = _unitOfWork.TripInformation.GetMyTripById(Id, CreatedBy);
             if (tripEntity == null)
             {
@@ -77,7 +79,7 @@ namespace AdessoRideShareAPI.Controllers
         [HttpGet]
         public IEnumerable<TripInformation> GetTrip(SearchTripModel stp)
         {
-
+            //Nerden ve Nereye bilgileri ile yolculuklar arasında arama yapılan fonksiyon
             var tripEntity = _unitOfWork.TripInformation.GetTripInfoByFromAndTo(stp.From, stp.To);
             return tripEntity;
 
@@ -86,6 +88,7 @@ namespace AdessoRideShareAPI.Controllers
         [HttpPost]
         public IActionResult RegisterToTrip(int Id, int userId)
         {
+            //Kayıtlı yolculuğun ID si ve kimin gideceği bilgisi ile, yolculuğa katılım fonksiyonu
 
             var tripEntity = _unitOfWork.TripInformation.GetPublishedTrip(Id);
             
